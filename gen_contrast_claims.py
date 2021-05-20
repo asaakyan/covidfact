@@ -1,7 +1,7 @@
 from transformers import pipeline
 from transformers import RobertaTokenizerFast, RobertaForMaskedLM
 import pandas as pd
-
+'hello'
 fname = arg1 #'/content/drive/MyDrive/misinformation-NLP/results/additional_1k.csv'
 output_fname = arg2
 claims = pd.read_csv(fname)
