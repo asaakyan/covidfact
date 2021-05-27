@@ -17,15 +17,14 @@ from sklearn.metrics import accuracy_score
 from allennlp.predictors.predictor import Predictor
 import allennlp_models.pair_classification
 
-dir = "./"
 
 predictor = Predictor.from_path("https://storage.googleapis.com/allennlp-public-models/mnli_roberta-2020.06.09.tar.gz", "textual_entailment")
 predictor._model = predictor._model.cuda()
 
-test5 = pd.read_csv('/content/drive/MyDrive/misinformation-NLP/tmp/DATASET/rte-covid-tuhin/evidence_recall/test1_5.tsv', sep='\t')
+test5 = pd.read_csv('./eval_data/evidence_recall/test1_5.tsv', sep='\t')
 test5.rename(columns={'entailment': 'label'}, inplace=True)
 
-test1 = pd.read_csv('/content/drive/MyDrive/misinformation-NLP/tmp/DATASET/rte-covid-tuhin/evidence_recall/test1_1.tsv', sep='\t')
+test1 = pd.read_csv('./eval_data/evidence_recall/test1_1.tsv', sep='\t')
 test1.rename(columns={'entailment': 'label'}, inplace=True)
 
 from fairseq.models.roberta import RobertaModel
@@ -75,12 +74,12 @@ def convert_to_label(x):
 covidfever = [[convert_to_label(x),convert_to_label(y)] for x,y in zip(yhat5, ytrue5)]
 covidfever_df = pd.DataFrame(covidfever, columns=['predicted', 'gold'])
 
-#covidfever_df.to_csv('covidfever.tsv', index=True, sep='\t', index_label='index')
+covidfever_df.to_csv('./eval_data/covidfever.tsv', index=True, sep='\t', index_label='index')
 
 count = 0
 c = 0
-for x,y in zip(open('/content/drive/MyDrive/misinformation-NLP/tmp/DATASET/rte-covid-tuhin/evidence_recall/test1_5_recall.tsv'),
-							 open('/content/drive/MyDrive/misinformation-NLP/tmp/DATASET/covidfever.tsv')):
+for x,y in zip(open('./eval_data/evidence_recall/test1_5_recall.tsv'),
+							 open('./eval_data/covidfever.tsv')):
 	
 	x = x.strip().split('\t')[-1]
 	y = y.strip().split('\t')
