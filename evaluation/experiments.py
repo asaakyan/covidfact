@@ -52,6 +52,7 @@ def convert_to_label(x):
 		return "entailment"
 
 if __name__ == "__main__":
+	
 	predictor = Predictor.from_path("https://storage.googleapis.com/allennlp-public-models/mnli_roberta-2020.06.09.tar.gz", "textual_entailment")
 	predictor._model = predictor._model.cuda()
 
@@ -67,14 +68,14 @@ if __name__ == "__main__":
 
 	### COVIDFEVER SCORE
 
-	covidfever = [[convert_to_label(x),convert_to_label(y)] for x,y in zip(yhat5, ytrue5)]
-	covidfever_df = pd.DataFrame(covidfever, columns=['predicted', 'gold'])
+	# covidfever = [[convert_to_label(x),convert_to_label(y)] for x,y in zip(yhat5, ytrue5)]
+	# covidfever_df = pd.DataFrame(covidfever, columns=['predicted', 'gold'])
 
-	covidfever_df.to_csv('./eval_data/covidfever.tsv', index=True, sep='\t', index_label='index')
+	# covidfever_df.to_csv('./eval_data/covidfever.tsv', index=True, sep='\t', index_label='index')
 
 	count = 0
 	c = 0
-	
+
 	for x,y in zip(open('./eval_data/evidence_recall/test1_5_recall.tsv'),
 								 open('./eval_data/covidfever.tsv')):
 		
