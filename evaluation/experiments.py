@@ -61,8 +61,8 @@ if __name__ == "__main__":
 
 	test1 = pd.read_csv('./eval_data/evidence_recall/test1_1.tsv', sep='\t')
 	test1.rename(columns={'entailment': 'label'}, inplace=True)
-	roberta = RobertaModel.from_pretrained('/content/fairseq/roberta.large', checkpoint_file='model.pt')
-	roberta.eval()  # disable dropout (or leave in train mode to finetune)
+	# roberta = RobertaModel.from_pretrained('/content/fairseq/roberta.large', checkpoint_file='model.pt')
+	# roberta.eval()  # disable dropout (or leave in train mode to finetune)
 	get_PR(test5)
 	get_PR(test1)
 
