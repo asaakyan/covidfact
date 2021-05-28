@@ -1,7 +1,12 @@
 import pandas as pd
 import os
+from google.colab import drive
 import requests
 
+from sentence_transformers import SentenceTransformer, util
+
+from sentence_transformers.util import semantic_search
+#Code for Google Search adapted from https://github.com/tuhinjubcse/DeSePtion-ACL2020/blob/master/src/doc/getDocuments.py
 import sys
 import os
 import json
@@ -17,6 +22,7 @@ import logging
 import tldextract
 from tqdm import tqdm
 import time
+
 import numpy as np
 import requests
 import re
@@ -33,7 +39,7 @@ from nltk.tokenize import sent_tokenize
 
 import html2text
 
-#Code for Google Search adapted from https://github.com/tuhinjubcse/DeSePtion-ACL2020/blob/master/src/doc/getDocuments.py
+
 logger = logging.getLogger(__name__)
 
 class GoogleConfig:
@@ -55,7 +61,7 @@ class GoogleConfig:
 																																												 self.cse_id,
 																																												 self.site,
 																																												 self.num,
-																																											 self.max_docs)
+																																												 self.max_docs)
 				
 def google_search(search_term, api_key, cse_id, **kwargs):
 		service = build("customsearch", "v1", developerKey=api_key)
@@ -78,73 +84,6 @@ def getDocumentsForClaimFromGoogle(claim, google_config):
 				res.append('notfound')
 			#print(result['formattedUrl'])
 		return res
-
-#SITERANK method is based on https://github.com/prahladyeri/siterank/blob/master/siterank/siterank.py ####
-import urllib.request
-import sys, os
-import argparse
-import xml.etree.ElementTree as ET
-
-def get_siterank(url):
-	#https://stackoverflow.com/questions/3676376/fetching-alexa-data
-	turl = "http://data.alexa.com/data?cli=10&url=" + url
-	req = urllib.request.Request(turl)
-	with urllib.request.urlopen(req) as fp:
-		output = fp.read().decode('utf-8')
-		tree = ET.ElementTree(ET.fromstring(output))
-		root = tree.getroot()
-		sd = root.find("SD")
-		if sd != None:
-			rnk = int(sd.find("POPULARITY").get("TEXT"))
-			return int(rnk)
-			#ranks[url] = rnk
-		else:
-			print("Not found: " + url)
-			return 1000000
-
-from tqdm import tqdm
-
-def get_search_results(df, google_config):
-	claim_search_res = dict()
-	for ind, row in tqdm(df.iterrows()):
-		try:
-			search_results = getDocumentsForClaimFromGoogle(row['claim'], google_config)
-			claim_search_res[row['claim']] = search_results
-			#time.sleep(1)
-		except: 
-			time.sleep(70)
-	return claim_search_res
-
-
-def get_sitename(link):
-	extract = tldextract.extract(link)
-	sitename = extract.domain +"."+ extract.suffix
-	return sitename
-
-def get_overlap_stats(df, search_results):
-
-	SITES = []
-	siteMatch = []
-
-	for ind, row in tqdm(df.iterrows()):
-
-		source = row['source']
-		claim = row['claim']
-
-		srs = search_results[claim]
-		if len(srs)==0:
-			SITES.append('none')
-			siteMatch.append(False)
-			continue
-
-		sitenames = [get_sitename(x) for x in srs]
-		SITES.append(sitenames)
-		source_name = get_sitename(source)
-		SM = source_name in sitenames
-		siteMatch.append(SM) # check if site name has a match
-	
-	return siteMatch, SITES
-
 
 h = html2text.HTML2Text()
 h.ignore_links = True
@@ -212,13 +151,6 @@ def scrape_link(url, sent, h=h):
 
 		return list(sentences), foundtitle
 
-from sentence_transformers import SentenceTransformer, util
-model = SentenceTransformer('distilbert-base-nli-stsb-mean-tokens', device='cuda')
-
-from sentence_transformers.util import semantic_search
-
-
-
 def select_evidence(model, claim, corpus, top_k=5):
 	# returns topk sentences by cosine similarity
 
@@ -231,18 +163,18 @@ def select_evidence(model, claim, corpus, top_k=5):
 	return rel_sents
 
 
-def get_evidence_for_claim(claim, search_res):
+def get_evidence_for_claim(claim, search_res, model):
 	
 	corpus = set()
 
-	for sr in search_res[claim]:
+	for sr in search_res:
 		if not ".pdf" in sr: # do not process pdf
 			new_sents, found_title = scrape_link(sr, claim)
 			if found_title: # if we find exact source of the claim, no need to process anything more
 				evidence = select_evidence(model, claim, new_sents)
-				print(claim)
-				print(evidence[0])
-				print("+++"*100)
+				# print(claim)
+				# print(evidence[0])
+				# print("+++"*100)
 				return evidence
 			else:
 				for s in new_sents:
@@ -252,45 +184,13 @@ def get_evidence_for_claim(claim, search_res):
 
 	return evidence
 
-#load data
-datapath = './best3contra_additional_1k.csv'
-df = pd.read_csv(datapath)
-df = df[df.columns.drop(list(df.filter(regex='Unnamed')))]
-df.sort_values(by=['contra_score'], ascending=False, ignore_index=True, inplace=True)
-df.drop_duplicates(subset=['claim'], inplace=True)
+if __name__ == "__main__":
+	api_key = 0000
+	cse_id = 0000
 
-#obtain site ranks
-df['siterank'] = df['source'].progress_apply(get_siterank)
-highranks = df[df['siterank']<50000]
-
-#obtain a file with link search results for these claims
-api_key = 0000
-cse_id = 0000
-google_config = GoogleConfig(api_key, cse_id, num=5)
-search_results5 = get_search_results(highranks, google_config)
-
-outfile = "./search_results_5_additional_1k.json"
-
-#uncomment to save/load 
-# with open(outfile, "w") as outfile:  
-		#json.dump(search_results5, outfile)
-
-# srfile5 = "./search_results_5_additional_1k.json"
-
-# with open(srfile5) as f:
-# 	search_results5 = json.load(f)
-
-# with open(srfile5) as f:
-#   search_results5 = json.load(f)
-
-#select only those claims which had their website found
-matches = highranks.copy()
-matches['siteMatch'], matches['SITES'] = get_overlap_stats(highranks, search_results5)
-
-matches = matches[matches['siteMatch']==True]
-
-# finally, find best evidence from the gold documents
-tqdm.pandas()
-matches['evidence'] = matches.progress_apply(lambda x: get_evidence_for_claim(x.claim, search_results5), axis=1)
-#matches.to_csv('/content/drive/MyDrive/misinformation-NLP/tmp/siteMAtchEVIDENCE_LINKS_ADDITIONAL_1k.csv')
+	google_config = GoogleConfig(api_key, cse_id, num=5)
+	search_results = getDocumentsForClaimFromGoogle(claim, google_config)
+	model = SentenceTransformer('distilbert-base-nli-stsb-mean-tokens', device='cuda')
+	
+	print(get_evidence_for_claim(claim, search_results, model))
 
