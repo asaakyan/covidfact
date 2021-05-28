@@ -35,8 +35,9 @@ def get_retrieved_evid(test_set_fname, positive_retrieved_evid, refuted_retrieve
 		elif claim in refuted_retrieved_evid:
 			retrieved_evid[claim] = refuted_retrieved_evid[claim][:n]
 		else:
+			# this should not happen
 			print(claim)
-			print("NOT FOUNDD")
+			#break
 			break
 	assert len(retrieved_evid) == len(test_data_df)
 	return retrieved_evid
