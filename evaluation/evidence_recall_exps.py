@@ -54,23 +54,6 @@ def get_test_gold(dataset_fname, test_set_fname):
 	
 	return test_gold 
 
-fname = './eval_data/evidence_recall/test1.tsv'
-
-evidence_batch1 = pd.read_csv('./eval_data/evidence_recall/siteMAtchEVIDENCE_LINK_v2.csv')
-evidence_batch2 = pd.read_csv('./eval_data/evidence_recall/siteMAtchEVIDENCE_LINKS_ADDITIONAL_1k.csv')
-
-positive_retrieved_evid = get_n_evid(evidence_batch1, evidence_batch2)
-
-with open("./eval_data/evidence_recall/refuted_retrieved_evidence.json") as f:
-	refuted_retrieved_evid = json.load(f)
-
-evid5 = get_retrieved_evid(fname, positive_retrieved_evid, refuted_retrieved_evid, 5)
-evid3 = get_retrieved_evid(fname, positive_retrieved_evid, refuted_retrieved_evid, 3)
-evid1 = get_retrieved_evid(fname, positive_retrieved_evid, refuted_retrieved_evid, 1)
-
-gold_fname = './eval_data/evidence_recall/DATASET_4k.json' #/content/drive/MyDrive/misinformation-NLP/tmp/DATASET/DATASET_4k.json'
-test_set_fname = './eval_data/evidence_recall/test1.tsv'  #/content/drive/MyDrive/misinformation-NLP/tmp/DATASET/rte-covid-tuhin/test1.tsv'
-test_gold = get_test_gold(gold_fname, test_set_fname)
 
 def get_PR(all_evid, human_evid):
 	# based on https://github.com/sheffieldnlp/fever-scorer/blob/master/src/fever/scorer.py
@@ -119,9 +102,29 @@ def get_PR(all_evid, human_evid):
 	f1 = 2.0 * pr * rec / (pr + rec)
 	print(f1)
 
-get_PR(evid5, test_gold)
-get_PR(evid3, test_gold)
-get_PR(evid1, test_gold)
+if __name__ == "__main__":
+		
+	fname = './eval_data/evidence_recall/test1.tsv'
+
+	evidence_batch1 = pd.read_csv('./eval_data/evidence_recall/siteMAtchEVIDENCE_LINK_v2.csv')
+	evidence_batch2 = pd.read_csv('./eval_data/evidence_recall/siteMAtchEVIDENCE_LINKS_ADDITIONAL_1k.csv')
+
+	positive_retrieved_evid = get_n_evid(evidence_batch1, evidence_batch2)
+
+	with open("./eval_data/evidence_recall/refuted_retrieved_evidence.json") as f:
+		refuted_retrieved_evid = json.load(f)
+
+	evid5 = get_retrieved_evid(fname, positive_retrieved_evid, refuted_retrieved_evid, 5)
+	evid3 = get_retrieved_evid(fname, positive_retrieved_evid, refuted_retrieved_evid, 3)
+	evid1 = get_retrieved_evid(fname, positive_retrieved_evid, refuted_retrieved_evid, 1)
+
+	gold_fname = './eval_data/evidence_recall/DATASET_4k.json' #/content/drive/MyDrive/misinformation-NLP/tmp/DATASET/DATASET_4k.json'
+	test_set_fname = './eval_data/evidence_recall/test1.tsv'  #/content/drive/MyDrive/misinformation-NLP/tmp/DATASET/rte-covid-tuhin/test1.tsv'
+	test_gold = get_test_gold(gold_fname, test_set_fname)
+
+	get_PR(evid5, test_gold)
+	get_PR(evid3, test_gold)
+	get_PR(evid1, test_gold)
 
 # save tsv for varacity + retrieval
 
