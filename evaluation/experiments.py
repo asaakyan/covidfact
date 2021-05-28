@@ -19,12 +19,12 @@ from fairseq.models.roberta import RobertaModel
 
 
 def get_contra_score(claim, evidence):
-	MAX_TOKENS = 512
-	sentence_tok = roberta.encode(evidence)
-	if len(sentence_tok) > MAX_TOKENS:
-			evidence = roberta.decode(sentence_tok[:510])
-			print(evidence)
-			#continue
+	# MAX_TOKENS = 512
+	# sentence_tok = roberta.encode(evidence)
+	# if len(sentence_tok) > MAX_TOKENS:
+	# 		evidence = roberta.decode(sentence_tok[:510])
+	# 		print(evidence)
+	# 		#continue
 	return predictor.predict( hypothesis=claim, premise=evidence)['probs'][:2]
 
 def get_PR(og_df):
@@ -52,7 +52,7 @@ def convert_to_label(x):
 		return "entailment"
 
 if __name__ == "__main__":
-	
+
 	predictor = Predictor.from_path("https://storage.googleapis.com/allennlp-public-models/mnli_roberta-2020.06.09.tar.gz", "textual_entailment")
 	predictor._model = predictor._model.cuda()
 
