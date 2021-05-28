@@ -5,6 +5,8 @@ import re, os, sys, csv
 import logging
 import random
 import torch
+
+# most of code was adapted from https://github.com/agaralabs/transformer-drg-style-transfer
 from torch.utils.data import (DataLoader, RandomSampler, SequentialSampler,
 							  TensorDataset)
 from torch.utils.data.distributed import DistributedSampler
@@ -119,60 +121,55 @@ def prepare_data(aw, ids_to_decode, tokens_to_decode):
 		all_top_words.append(top_words)
 
 	return all_top_words
-	
-
 
 logging.basicConfig(format = '%(asctime)s - %(levelname)s - %(name)s -   %(message)s',
 					datefmt = '%m/%d/%Y %H:%M:%S',
 					level = logging.INFO)
 
-input_file = arg1
-outfile = arg2
-layer_ = 6
-head_ = 8
+if __name__ == "__main__":
 
-max_seq_len=70 # Maximum sequence length 
-sm = torch.nn.Softmax(dim=-1) ## Softmax over the batch
+	input_file = sys.argv[1]
+	layer_ = sys.argv[2] #6
+	head_ = sys.argv[3] #8
 
-# UNCASED MODEL
-logger = logging.getLogger(__name__)
+	max_seq_len=70 # Maximum sequence length 
+	sm = torch.nn.Softmax(dim=-1) ## Softmax over the batch
 
-bert_classifier_model_dir =  '/content/drive/MyDrive/misinformation-NLP/models/BERT-SCIFACT-UNCASED' ## Path of BERT classifier model path
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-n_gpu = torch.cuda.device_count()
-logger.info("device: {}, n_gpu {}".format(device, n_gpu))
+	# UNCASED MODEL
+	logger = logging.getLogger(__name__)
 
-## Model for performing Classification
-model_cls = BertForSequenceClassification.from_pretrained(bert_classifier_model_dir, num_labels=2)
-tokenizer = BertTokenizer.from_pretrained('bert-base-uncased', do_lower_case=True) # replace scibert ?
-model_cls.to(device)
-model_cls.eval()
+	bert_classifier_model_dir =  './models/BERT-SCIFACT-UNCASED' ## Path of BERT classifier model path
+	device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+	n_gpu = torch.cuda.device_count()
+	logger.info("device: {}, n_gpu {}".format(device, n_gpu))
 
-## Model to get the attention weights of all the heads
-model = BertModel.from_pretrained(bert_classifier_model_dir)
-tokenizer = BertTokenizer.from_pretrained('bert-base-uncased', do_lower_case=True)
-model.to(device)
-model.eval()
+	## Model to get the attention weights of all the heads
+	model = BertModel.from_pretrained(bert_classifier_model_dir)
+	tokenizer = BertTokenizer.from_pretrained('bert-base-uncased', do_lower_case=True)
+	model.to(device)
+	model.eval()
 
-train_0 = [c.replace("\"", "").strip() for c in input_file.readlines()]
-aw, ids_to_decode, tokens_to_decode = run_attn_examples(train_0, layer=layer_, head=head_, bs=128)
-top_words = prepare_data(aw, ids_to_decode, tokens_to_decode)
+	train_0 = [c.replace("\"", "").strip() for c in input_file.readlines()]
+	aw, ids_to_decode, tokens_to_decode = run_attn_examples(train_0, layer=layer_, head=head_, bs=128)
+	top_words = prepare_data(aw, ids_to_decode, tokens_to_decode)
+	print(top_words)
+	
+	# outfile = './misc'
 
-outfile = '/content/drive/MyDrive/misinformation-NLP/results/additional_1k.csv'
+	# sources = list(claims['source_url'])
+	# flairs = list(claims['flair'])
 
-sources = list(claims['source_url'])
-flairs = list(claims['flair'])
-with open(outfile, "w") as out_fp:
+	# with open(outfile, "w") as out_fp:
 
-	writer = csv.writer(out_fp, delimiter=",")
-	writer.writerow(['claim', 'keyword', 
-					'src_url', 'flair'])
-	for i in range(0, len(top_words)):
-		for j in range(0, len(top_words[i])):
-			claim = train_0[i]
-			keyword = top_words[i][j]
-			src_url = sources[i]
-			flair = flairs[i]
-			writer.writerow([claim, keyword, src_url, flair])
+	# 	writer = csv.writer(out_fp, delimiter=",")
+	# 	writer.writerow(['claim', 'keyword', 
+	# 					'src_url', 'flair'])
+	# 	for i in range(0, len(top_words)):
+	# 		for j in range(0, len(top_words[i])):
+	# 			claim = train_0[i]
+	# 			keyword = top_words[i][j]
+	# 			src_url = sources[i]
+	# 			flair = flairs[i]
+	# 			writer.writerow([claim, keyword, src_url, flair])
 
 

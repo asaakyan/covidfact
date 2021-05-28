@@ -1,6 +1,3 @@
-import sys
-sys.path.insert(1, '/content/transformer-drg-style-transfer')
-
 import csv
 import logging
 import os
@@ -247,8 +244,8 @@ def get_block_head(processed_sentence_list, lmbd = 0.1):
 	#score1_lt = [(x // 12, x - (12 * (x // 12)),y) for x,y in temp1]
 	return score_lt  #score1_lt
 
-pos_examples_file = arg1 #"/content/scifact_true_dev.txt" #/home/ubuntu/bhargav/data/yelp/sentiment_dev_1.txt"
-neg_examples_file = arg2 #"/content/scifact_false_dev.txt" #"/home/ubuntu/bhargav/data/yelp/sentiment_dev_0.txt"
+pos_examples_file = ''#"/content/scifact_true_dev.txt" #/home/ubuntu/bhargav/data/yelp/sentiment_dev_1.txt"
+neg_examples_file = '' #"/content/scifact_false_dev.txt" #"/home/ubuntu/bhargav/data/yelp/sentiment_dev_0.txt"
 pos_data = read_file(pos_examples_file,100)
 neg_data = read_file(neg_examples_file,100)
 data = pos_data + neg_data

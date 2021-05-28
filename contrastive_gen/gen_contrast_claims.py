@@ -1,9 +1,9 @@
 from transformers import pipeline
 from transformers import RobertaTokenizerFast, RobertaForMaskedLM
 import pandas as pd
-'hello'
-fname = arg1 #'/content/drive/MyDrive/misinformation-NLP/results/additional_1k.csv'
-output_fname = arg2
+
+fname = '' #'/content/drive/MyDrive/misinformation-NLP/results/additional_1k.csv'
+output_fname = ''
 claims = pd.read_csv(fname)
 
 tokenizer = RobertaTokenizerFast.from_pretrained("amoux/roberta-cord19-1M7k")
