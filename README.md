@@ -2,7 +2,7 @@
 
 This repository contains data and code for the paper COVID-Fact: Fact Extraction and Verification of Real-World Claims on COVID-19 Pandemic by Arkadiy Saakyan, Tuhin Chakrabarty, and Smaranda Muresan.
 
-The full dataset is contained in the file COVIDFACT_dataset.jsonl. Every line is a dictionary with the following attributes:
+The full dataset is contained in the file COVIDFACT_dataset.jsonl. Every line is a dictionary with the following the format below:
 
 {"claim": "claim text", "label": "REFUTED or SUPPORTED", "evidence": [list of evidence sentences], "gold_source": "link", "flair": "post's flair"}
 
