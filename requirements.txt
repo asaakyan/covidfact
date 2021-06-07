@@ -171,7 +171,6 @@ typing-extensions==3.7.4.3
 ubuntu-advantage-tools==27.0
 ufw==0.36
 unattended-upgrades==0.1
-urllib3==1.25.8
 virtualenv==20.0.17
 virtualenv-clone==0.3.0
 virtualenvwrapper==4.8.4
