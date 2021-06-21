@@ -19,8 +19,14 @@ The scripts used for counter-claim generation can be found in the folder contras
 The folder evaluation provides the scripts needed to recreate Table 4 and Table 5 of the paper. eval_data folder provides the dataset already processed in the format necessary for the experiments.
 
 # Citation
-TBD
+@article{saakyan2021covid,
+  title={COVID-Fact: Fact Extraction and Verification of Real-World Claims on COVID-19 Pandemic},
+  author={Saakyan, Arkadiy and Chakrabarty, Tuhin and Muresan, Smaranda},
+  journal={arXiv preprint arXiv:2106.03794},
+  year={2021}
+}
 
 # Contact
 a.saakyan@columbia.edu
+tuhin.chakr@cs.columbia.edu
 
