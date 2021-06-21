@@ -27,6 +27,6 @@ The folder evaluation provides the scripts needed to recreate Table 4 and Table 
 }
 
 # Contact
-a.saakyan@columbia.edu
+a.saakyan@columbia.edu <br>
 tuhin.chakr@cs.columbia.edu
 
