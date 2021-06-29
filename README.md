@@ -18,6 +18,9 @@ The scripts used for counter-claim generation can be found in the folder contras
 # Evaluation
 The folder evaluation provides the scripts needed to recreate Table 4 and Table 5 of the paper. eval_data folder provides the dataset already processed in the format necessary for the experiments.
 
+    Download the fairseq folder from https://drive.google.com/file/d/1WzDrE3DQHLnlM6j_nokFP5D9ZxAB2f66/view?usp=sharing and use roberta_train.sh 
+
+
 # Citation
           @article{saakyan2021covid,
             title={COVID-Fact: Fact Extraction and Verification of Real-World Claims on COVID-19 Pandemic},
