@@ -26,19 +26,19 @@ and use roberta_train.sh
 
 
 # Citation
-@inproceedings{saakyan-etal-2021-covid,
-    title = "{COVID}-Fact: Fact Extraction and Verification of Real-World Claims on {COVID}-19 Pandemic",
-    author = "Saakyan, Arkadiy  and
-      Chakrabarty, Tuhin  and
-      Muresan, Smaranda",
-    booktitle = "Proceedings of the 59th Annual Meeting of the Association for Computational Linguistics and the 11th International Joint Conference on Natural Language Processing (Volume 1: Long Papers)",
-    month = aug,
-    year = "2021",
-    address = "Online",
-    publisher = "Association for Computational Linguistics",
-    url = "https://aclanthology.org/2021.acl-long.165",
-    pages = "2116--2129",
-}
+                @inproceedings{saakyan-etal-2021-covid,
+                     title = "{COVID}-Fact: Fact Extraction and Verification of Real-World Claims on {COVID}-19 Pandemic",
+                     author = "Saakyan, Arkadiy  and
+                       Chakrabarty, Tuhin  and
+                       Muresan, Smaranda",
+                     booktitle = "Proceedings of the 59th Annual Meeting of the Association for Computational Linguistics and the 11th International Joint Conference on Natural Language Processing (Volume 1: Long Papers)",
+                     month = aug,
+                     year = "2021",
+                     address = "Online",
+                     publisher = "Association for Computational Linguistics",
+                     url = "https://aclanthology.org/2021.acl-long.165",
+                     pages = "2116--2129",
+                 }
 
 
 # Contact
