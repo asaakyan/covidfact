@@ -5,7 +5,7 @@ This repository contains data and code for our ACL 2021 paper
                   COVID-Fact: Fact Extraction and Verification of Real-World Claims on COVID-19 Pandemic
                   Arkadiy Saakyan, Tuhin Chakrabarty, and Smaranda Muresan.
 
-The full dataset is contained in the file COVIDFACT_dataset.jsonl. Every line is a dictionary with the following the format below:
+The full dataset is contained in the file COVIDFACT_dataset.jsonl. Every line is a dictionary with the following format below:
 
 {"claim": "claim text", "label": "REFUTED or SUPPORTED", "evidence": [list of evidence sentences], "gold_source": "link", "flair": "post's flair"}
 
