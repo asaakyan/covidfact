@@ -27,6 +27,11 @@ Best Covid fact result checkpoint
               
 Run result.py for accuracy F1 score and use roberta_train.sh to train new model
 
+We have also uploaded data for RTE-Fever, RTE-scifact
+
+If you want to train models using them you need to create binary files, following this way
+https://github.com/pytorch/fairseq/blob/master/examples/roberta/README.glue.md
+If you want the trained model checkpoints for FEVER / scifact / covidscifact email us
 
 # Citation
                 @inproceedings{saakyan-etal-2021-covid,
