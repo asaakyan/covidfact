@@ -20,9 +20,12 @@ You can find the BERT model fine-tuned on SciFact used to get the attention weig
 # Evaluation
 The folder evaluation provides the scripts needed to recreate Table 4 and Table 5 of the paper. eval_data folder provides the dataset already processed in the format necessary for the experiments.
 
-Download the fairseq folder from 
+Download the fairseq folder from and reproduce results for veracity prediction using Gold evidence for Covidfact (the best configuration)
               https://drive.google.com/file/d/1WzDrE3DQHLnlM6j_nokFP5D9ZxAB2f66/view?usp=sharing 
-and use roberta_train.sh 
+Best Covid fact result checkpoint
+              https://drive.google.com/drive/folders/1KyQAh_EK4Vi9k28RLXE4pD4Pu2P9Oh7z?usp=sharing
+              
+Run result.py for accuracy F1 score and use roberta_train.sh to train new model
 
 
 # Citation
