@@ -10,15 +10,22 @@ The full dataset is contained in the file COVIDFACT_dataset.jsonl. Every line is
 {"claim": "claim text", "label": "REFUTED or SUPPORTED", "evidence": [list of evidence sentences], "gold_source": "link", "flair": "post's flair"}
 
 Note gold_source in our dataset refers to the source of the claim, not source of the evidence. 
+
 Note that list of evidence sentences is retrieved by first creating a "corpus" by scraping top 5 google search results for the claim, and then retrieving the most similar sentences to the claim using SBERT.
 
 # Evidence Selection
 The script used for evidence selection / claim filtration can be found in the folder doc_selection. There is also the script to select evidence for a particular claim. 
+
 Note gold_source in our dataset refers to the source of the claim, not source of the evidence. Evidence is scraped form top 5 Google Search results for the claim, including the source of the claim link. 
+
 Files "search_results*.json" provide links we used for scraping evidence.
+
 Note that list of evidence sentences is retrieved by first creating a "corpus" by scraping top 5 google search results for the claim, and then retrieving the most similar sentences to the claim using SBERT.
+
 Scraped selections after SBERT similarity filtering with the claim are uploaded in the files "siteMAtchEVIDENCE_LINK_v2.csv”, “siteMAtchEVIDENCE_LINKS_ADDITIONAL_1k.csv”.
+
 search_and_select_evidence_for_claim.py is an auxilary script that can be used to obtain evidence candidates for a given claim. It was not used in dataset creation process and is simply provided for convenience.
+
 Files with "additional" in the name indicate that they were collected at a later date compared to most of the dataset. In order to run comprehensive evaluations, please simply join the files.
 
 # Counter-claim Generation
