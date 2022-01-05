@@ -22,6 +22,10 @@ Files "search_results*.json" provide links we used for scraping evidence.
 
 Note that list of evidence sentences is retrieved by first creating a "corpus" by scraping top 5 google search results for the claim, and then retrieving the most similar sentences to the claim using SBERT.
 
+Scraped websites from search results (pre-sentence tokenization and SBERT filtration) are available here:  https://drive.google.com/drive/folders/1CZZ8QvUxkQMITofZ2o3_ZGUKtw0Zu3x3?usp=sharing
+The format is {claim_1: {source_1: text, source_2: text, ...}, claim_2:...}
+There are more claims in this file than in the final dataset, since evidence could not be obtained in some cases which led to filtering those claims out. Other discrepancies with the final dataset may be possible due to sites changing their content.
+
 Scraped selections after SBERT similarity filtering with the claim are uploaded in the files "siteMAtchEVIDENCE_LINK_v2.csv”, “siteMAtchEVIDENCE_LINKS_ADDITIONAL_1k.csv”.
 
 search_and_select_evidence_for_claim.py is an auxilary script that can be used to obtain evidence candidates for a given claim. It was not used in dataset creation process and is simply provided for convenience.
