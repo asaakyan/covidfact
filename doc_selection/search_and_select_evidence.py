@@ -1,7 +1,5 @@
 import pandas as pd
-import os
 import requests
-
 import sys
 import os
 import json
@@ -16,18 +14,12 @@ import time
 import logging
 import tldextract
 from tqdm import tqdm
-import time
 import numpy as np
-import requests
 import re
-import sys
-import pandas as pd
 from os import path
 from bs4 import BeautifulSoup
-
 import traceback
 
-import nltk
 nltk.download('punkt')
 from nltk.tokenize import sent_tokenize
 
