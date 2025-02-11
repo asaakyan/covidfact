@@ -42,8 +42,7 @@ The folder evaluation provides the scripts needed to recreate Table 4 and Table 
 
 Download the fairseq folder from and reproduce results for veracity prediction using Gold evidence for Covidfact (the best configuration)<br />
     ``https://drive.google.com/file/d/1WzDrE3DQHLnlM6j_nokFP5D9ZxAB2f66/view?usp=sharing``<br />
-Best Covid fact result checkpoint <br />
-      ``https://drive.google.com/drive/folders/1KyQAh_EK4Vi9k28RLXE4pD4Pu2P9Oh7z?usp=sharing``<br />
+Best Covid fact result checkpoint [Unfortunately due to to updated GDrive storage requirements, the checkpoint was deleted.]
               
 Run result.py for accuracy F1 score and use roberta_train.sh to train new model
 
